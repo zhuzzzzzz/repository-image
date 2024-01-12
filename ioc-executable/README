@@ -1,0 +1,36 @@
+#构建基于 EPICS base-7.0.7 开发环境的标准IOC运行环境的容器镜像: 
+docker build -t ioc-exe:dev .
+
+
+#准备
+0. 准备EPICS base的开发环境docker镜像
+
+1. 安装EPICS supports
+	0) 所有工作在SUPPORT目录内完成, 将所有需要安装模块的项目文件解压至SUPPORT目录
+	1) 检查各模块/configure/RELEASE文件, 注释掉不需要的路径变量
+	2) 对部分模块需要单独修改文件配置, 如asyn需在CONFIG_SITE中设置TIRPC=YES
+	3) 编辑脚本automake.sh, 按顺序设置需要安装哪些模块
+	4) 编辑脚本checkDependency.sh, 设置需要安装的模块的依赖关系
+	5) 运行脚本automake.sh安装目录内模块
+
+2. 编译IOC可执行文件
+	0) 所有工作在IOC/ioc-tools目录内完成
+	1) 编辑脚本ioc-generator.py, 设置IOC的基本信息以及需要为IOC安装的模块(若设置了sequencer, 则需要进一步提供关于seq的配置信息)
+	2) 运行脚本ioc-generator.py完成IOC可执行文件的创建以及编译
+	3) ioc-generator.py脚本当前仅支持seq, asyn, StreamDevice, caPutLog, autosave, iocStats六个模块
+
+	
+
+#测试
+============== base-7.0.7:dev ==============
+1. 检查系统环境变量
+2. 运行softIoc命令
+3. 运行makeBaseApp.pl
+4. 运行第三方包命令(python, ping...)
+============== runtime:dev ==============
+1. 检查各个模块是否能够成功安装
+	SUPPORT/test-for-automake.sh
+2. 测试IOC是否能够正常创建编译
+	ioc-tools/test-for-ioc-generator.sh
+	
+
