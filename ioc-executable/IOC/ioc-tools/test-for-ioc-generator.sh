@@ -16,7 +16,7 @@ do
 		make &> /dev/null
 		if test $? -eq 0
 		then
-			echo IOC $item installed successfully.
+			echo IOC $item successfully installed.
 		else
 			echo IOC $item install failed.
 		fi

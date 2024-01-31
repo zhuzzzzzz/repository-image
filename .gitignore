@@ -1,10 +1,13 @@
 
+# pycharm files
+__pycache__/
+.idea/
+
 # test files
-SUPPORT-test/
 test/
 
 
-# ignore EPICS module files
+# ignore EPICS base
 base/*
 !base/Dockerfile
 !base/README
@@ -12,6 +15,7 @@ base/*
 !base/.bash_aliases
 
 
+# ignore EPICS modules
 ioc-executable/SUPPORT/*
 !ioc-executable/SUPPORT/automake.sh
 !ioc-executable/SUPPORT/checkDependency.sh

@@ -2,20 +2,23 @@
 FROM ubuntu
 
 # install packages.
-# build-essential needed by execute make
-# re2c needed by seq
-RUN apt update && apt install -y build-essential re2c vim net-tools inetutils-ping python3 
+# build-essential needed to execute make.
+# re2c needed by seq.
+# other tools: vim net-tools inetutils-ping python3 
+RUN apt update && apt install -y build-essential re2c vim net-tools inetutils-ping python3 && rm -rf /var/lib/apt/lists/*
 
-# EPICS_BASE here should be modified accordingly.
+# make configurations here
 ARG BASE=base-7.0.7
+ARG WORK_PATH=/opt/EPICS
 
-# epics-base.
-WORKDIR /opt/EPICS
+# epics-base
+WORKDIR $WORK_PATH
 ADD $BASE.tar.gz .
 RUN cd $BASE; make
 
-# set environment variable(using .bash_aliases file).
-ENV EPICS_BASE=/opt/EPICS/$BASE
+# set environment variable(using ~/.bash_aliases)
+ENV USER=root
+ENV EPICS_BASE=$WORK_PATH/$BASE
 COPY .bash_aliases /root/
 COPY setENV.sh /root/
 

@@ -1,14 +1,20 @@
-ARG BASE=base-7.0.7
-FROM base:dev
+# make configuration for base image
+ARG BASE_IMAGE=base:dev
+
+# 
+FROM $BASE_IMAGE
+
+# make other configurations here
+ARG WORK_PATH=/opt/EPICS
+
 
 # install IOC modules.
 COPY SUPPORT/ ./SUPPORT
-RUN cd /opt/EPICS/SUPPORT; ./automake.sh
+RUN cd $WORK_PATH/SUPPORT; ./automake.sh
 
-# generate template IOC.
+# generate IOC executable files.
 COPY IOC/ ./IOC
-ENV USER=root
-RUN . ~/.bash_aliases; cd /opt/EPICS/IOC/ioc-tools; ./ioc-generator.py
+RUN . ~/.bash_aliases; cd $WORK_PATH/IOC/ioc-tools; ./ioc-generator.py
 
 
 

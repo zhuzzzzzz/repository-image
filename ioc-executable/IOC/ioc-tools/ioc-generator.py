@@ -4,11 +4,14 @@ import os, shutil
 from subprocess import Popen, TimeoutExpired, PIPE
 
 ###
-#  code below can be modified.
-IOC_NAME = 'ST-IOC'  # set IOC name.
-# set which module to be installed with IOC.
+# Codes can be modified.
+
+# Set IOC name
+IOC_NAME = 'ST-IOC'
+
+# Set which module to be installed with IOC
+# 'path name': 'module name'
 MODULES_TO_INSTALL = {
-    # 'module name': 'path name'
     'seq': 'SNCSEQ',
     'asyn': 'ASYN',
     'StreamDevice': 'STREAM',
@@ -16,8 +19,9 @@ MODULES_TO_INSTALL = {
     'autosave': 'AUTOSAVE',
     'iocStats': 'IOCADMIN',
 }
-# if seq to be installed, you should set .st file list and the definitions of IOC Makefile.
-# you can refer to the settings below.
+
+# If seq to be installed, make configurations here
+# You should set .st file list and the definitions of IOC Makefile, You can refer to the settings below to set seq.
 seq_file_list = ['sncExample.dbd', 'sncExample.stt']
 Makefile_template_for_seq = [
     f'sncExample_SNCFLAGS += +r\n',
@@ -27,17 +31,20 @@ Makefile_template_for_seq = [
 ]
 
 ###
-#  code below should not be modified.
+# Codes should not be modified.
 MODULES_DIR_NAME = 'SUPPORT'
 Makefile_template_for_all = [
-    f'#PVA\n',
-    f'ifdef EPICS_QSRV_MAJOR_VERSION\n',
-    f'\ttemplate_LIBS += qsrv\n'
-    f'\ttemplate_LIBS += $(EPICS_BASE_PVA_CORE_LIBS)\n',
-    f'\ttemplate_DBD += PVAServerRegister.dbd\n'
-    f'\ttemplate_DBD += qsrv.dbd\n'
-    f'endif\n'
-    f'\n',
+    '#\n',
+    'template_DBD += systemCommand.dbd\n',
+    '\n',
+    '#PVA\n',
+    'ifdef EPICS_QSRV_MAJOR_VERSION\n',
+    '\ttemplate_LIBS += qsrv\n'
+    '\ttemplate_LIBS += $(EPICS_BASE_PVA_CORE_LIBS)\n',
+    '\ttemplate_DBD += PVAServerRegister.dbd\n'
+    '\ttemplate_DBD += qsrv.dbd\n'
+    'endif\n'
+    '\n',
 ]
 Makefile_template_for_modules = {
     'seq': [
@@ -79,21 +86,6 @@ Makefile_template_for_modules = {
         f'\n',
     ],
 }
-with_seq = False  # for IOC with sequencer.
-if 'seq' in MODULES_TO_INSTALL.keys():
-    with_seq = True
-    if seq_file_list:
-        for item in seq_file_list:
-            if item not in os.listdir():
-                print(f'file "{item}" set for sequencer but not found in "{os.getcwd()}".')
-                exit(1)
-        else:
-            Makefile_template_for_modules['seq'].extend(Makefile_template_for_seq)
-            Makefile_template_for_modules['seq'].append(f'\n')
-    else:
-        print(f'sequencer is set to be installed but related files are not set.')
-        exit(1)
-tool_path = os.getcwd()
 
 
 def try_makedirs(d):
@@ -121,17 +113,18 @@ def file_copy(src, dest, mode='r', verbose=False):
     if not os.path.exists(src):
         print(f'file_copy: failed, "{src}" source file not found.')
         return False
-    # if destination file exists, first remove it.
+    # if destination file exists, remove it.
     if os.path.exists(dest):
         if verbose:
             print(f'file_copy: destination "{dest}" exists, first remove it.')
         file_remove(dest, verbose)
-    # if destination dir no exists, first create it.
+    # if destination dir no exists, create it.
     dest_dir = os.path.dirname(dest)
     if not os.path.isdir(dest_dir):
         if verbose:
             print(f'file_copy: destination directory "{dest_dir}" not exists, first create it.')
         try_makedirs(dest_dir)
+
     try:
         shutil.copy(src, dest)
     except PermissionError as e:
@@ -204,6 +197,23 @@ def get_module_path(d):
 
 
 def main():
+    # For IOC with sequencer, checking files and make settings in Makefile.
+    with_seq = False
+    if 'seq' in MODULES_TO_INSTALL.keys():
+        with_seq = True
+        if seq_file_list:
+            for item in seq_file_list:
+                if item not in os.listdir():
+                    print(f'file "{item}" set for sequencer but not found in "{os.getcwd()}".')
+                    exit(1)
+            else:
+                Makefile_template_for_modules['seq'].extend(Makefile_template_for_seq)
+                Makefile_template_for_modules['seq'].append(f'\n')
+        else:
+            print(f'sequencer is set to be installed but related files are not set.')
+            exit(1)
+
+    tool_path = os.getcwd()
     top_dir = os.path.normpath(os.path.join(os.getcwd(), '..'))
 
     # create IOC directory
@@ -252,6 +262,10 @@ def main():
         else:
             print(f'failed to create RELEASE.local.')
             exit(1)
+
+        # copy .dbd files
+        file_copy(os.path.join(tool_path, 'systemCommand.dbd'),
+                  os.path.join(ioc_top_dir, f'{IOC_NAME}App', 'src', 'systemCommand.dbd'), mode='rw', verbose=True)
 
         # handle Makefile
         lines_to_add = ['\n', ]
