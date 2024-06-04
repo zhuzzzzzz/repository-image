@@ -1,8 +1,13 @@
 #!/bin/bash
 
+# set option "pack" to package and compress the 
+
+
+
+# Edit.
 # ordered name(path name) list of modules to install, set this variable if add new modules.
 #modules_to_install=("asyn" "StreamDevice")
-modules_to_install=("seq" "asyn" "autosave" "caPutLog" "iocStats" "StreamDevice")
+modules_to_install=("seq" "asyn" "autosave" "caPutLog" "iocStats" "StreamDevice" )
 
 
 script_abs=$(readlink -f "$0")

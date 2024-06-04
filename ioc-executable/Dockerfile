@@ -1,5 +1,5 @@
 # make configuration for base image
-ARG BASE_IMAGE=base:dev
+ARG BASE_IMAGE=base:beta-0.1.1
 
 # 
 FROM $BASE_IMAGE
