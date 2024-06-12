@@ -18,6 +18,8 @@ MODULES_TO_INSTALL = {
     'caPutLog': 'caPutLog',
     'autosave': 'AUTOSAVE',
     'iocStats': 'IOCADMIN',
+    'modbus': 'MODBUS',
+    's7nodave': 'S7NODAVE',
 }
 
 # If seq to be installed, make configurations here
@@ -83,6 +85,19 @@ Makefile_template_for_modules = {
         f'#IOCADMIN\n',
         f'template_LIBS += devIocStats\n',
         f'template_DBD += devIocStats.dbd\n',
+        f'\n',
+    ],
+    'modbus': [
+        f'#IOCADMIN\n',
+        f'template_LIBS += modbus\n',
+        f'template_DBD += modbusApp.dbd\n',
+        f'template_DBD += modbusSupport.dbd\n',
+        f'\n',
+    ],
+    's7nodave': [
+        f'#S7NODAVE\n',
+        f'template_LIBS += s7nodave\n',
+        f'template_DBD += s7nodave.dbd\n',
         f'\n',
     ],
 }

@@ -5,7 +5,7 @@ FROM ubuntu
 # build-essential needed to execute make.
 # re2c needed by seq.
 # other tools: vim net-tools inetutils-ping python3 
-RUN apt update && apt install -y build-essential re2c vim net-tools inetutils-ping python3 && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt install -y build-essential re2c vim net-tools inetutils-ping python3 zip && rm -rf /var/lib/apt/lists/*
 
 # make configurations here
 ARG BASE=base-7.0.7

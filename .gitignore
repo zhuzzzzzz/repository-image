@@ -9,22 +9,8 @@ test/
 
 # ignore EPICS base
 base/*
-!base/Dockerfile
-!base/README
-!base/setENV.sh
-!base/.bash_aliases
 
 
 # ignore uncollected EPICS modules
-ioc-executable/SUPPORT/*
-!ioc-executable/SUPPORT/automake.sh
-!ioc-executable/SUPPORT/checkDependency.sh
-!ioc-executable/SUPPORT/ModulesDependency.txt
-!ioc-executable/SUPPORT/test-for-automake.sh
-!ioc-executable/SUPPORT/asyn-*.zip
-!ioc-executable/SUPPORT/autosave-*.zip
-!ioc-executable/SUPPORT/caPutLog-*.zip
-!ioc-executable/SUPPORT/iocStats-*.zip
-!ioc-executable/SUPPORT/modbus-*.zip
-!ioc-executable/SUPPORT/seq-*.zip
-!ioc-executable/SUPPORT/StreamDevice-*.zip
+ioc-exec/SUPPORT/*
+

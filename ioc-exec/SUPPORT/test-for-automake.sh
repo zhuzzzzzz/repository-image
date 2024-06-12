@@ -9,11 +9,11 @@ do
 	if test -d $item -a -d $item/lib
 	then
 		cd $item
-		make distclean
+		make distclean &> /dev/null
 		cd $script_dir
 	fi
 done
 
 echo "executing automake.sh ..."
-./automake.sh |& grep -i -e "check_install" -e "successfully installed" -e "install failed" -e "already installed" -e "set to install, but not found" -e "dependency check failed" \
+./automake.sh install |& grep -i -e "check_install" -e "move to path" -e "successfully installed" -e "install failed" -e "already installed" -e "set to install, but not found" -e "dependency check failed" \
  -e "EPICS_BASE not defined" -e "needed by" -e "needs no other package" -e "not found." -e "found but not an epics module" 

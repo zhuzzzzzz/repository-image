@@ -10,7 +10,7 @@ ARG WORK_PATH=/opt/EPICS
 
 # install IOC modules.
 COPY SUPPORT/ ./SUPPORT
-RUN cd $WORK_PATH/SUPPORT; ./automake.sh
+RUN cd $WORK_PATH/SUPPORT; ./automake.sh install
 
 # generate IOC executable files.
 COPY IOC/ ./IOC

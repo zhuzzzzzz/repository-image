@@ -2,15 +2,15 @@
 
 # check dependency for given module and create RELEASE.local file.
 
-# define a dict form module to modules_dependency. 
-# set this variable if add new module that has module dependecy with other modules.
+# define a dict for modules and their dependencies. 
 declare -A module_dict
-module_dict["StreamDevice"]="asyn " 
+module_dict["StreamDevice"]="asyn " # asyn needed by StreamDevice.
+module_dict["modbus"]="asyn " # asyn needed by modbus.
+module_dict["s7nodave"]="asyn " # asyn needed by s7nodave.
 
-# define a dict form path name to module name.
-# set this variable if add new modules.
-declare -A path_name
-path_name["asyn"]="ASYN"
+# a dict form path name to module package name, used in RELEASE.loacl, to define which modules are needed to install current module. set this variable if necessary when new modules added. 
+declare -A package_name
+package_name["asyn"]="ASYN"
 
 
 
@@ -33,10 +33,10 @@ if [ -n "${modules_needed[*]}" ]
 then
 for module in "${modules_needed[@]}"
 do	
-	pkg=`ls | grep -i $module`
+	pkg=`ls | grep -i $module-`
 	if test -n "$pkg" -a -d "$pkg/lib"
 	then 
-		echo ${path_name["$module"]}=$script_dir/$pkg >> $script_dir/RELEASE.local
+		echo ${package_name["$module"]}=$script_dir/$pkg >> $script_dir/RELEASE.local
 		echo package \""$module"\" needed by \""$1"\".
 	elif test  -n "$pkg" -a ! -d "$pkg/lib"
 	then
