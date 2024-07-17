@@ -1,5 +1,5 @@
 #
-FROM ubuntu
+FROM ubuntu:24.04
 
 # install packages.
 # build-essential needed to execute make.
@@ -8,7 +8,7 @@ FROM ubuntu
 RUN apt update && apt install -y build-essential re2c vim net-tools inetutils-ping python3 zip libtirpc-dev && rm -rf /var/lib/apt/lists/*
 
 # make configurations here
-ARG BASE=base-7.0.7
+ARG BASE=base-7.0.8.1
 ARG WORK_PATH=/opt/EPICS
 
 # epics-base
