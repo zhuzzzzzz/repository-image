@@ -12,16 +12,16 @@
 
 ### 当前版本镜像说明
 
-#### base镜像(base:beta-0.2.1)
+#### base镜像(base:beta-0.2.2)
 
 - 基于轻量化ubuntu
-- EPICS base-7.0.8
+- EPICS base-7.0.8.1
 - 容器内工作目录/opt/EPICS
 - 参考项目内README文件进行镜像构建后的测试
 
-#### ioc-exec镜像(ioc-exec:beta-0.2.1)
+#### ioc-exec镜像(ioc-exec:beta-0.2.2)
 
-- 基于镜像base:beta-0.2.1
+- 基于镜像base:beta-0.2.2
 - 已安装的可执行IOC: ST-IOC
 - 当前版本支持的EPICS插件(ST-IOC): "seq" "asyn" "autosave" "caPutLog" "iocStats" "StreamDevice" "modbus" "s7nodave"
 - 参考项目内README文件进行镜像构建后的测试
