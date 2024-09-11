@@ -7,7 +7,7 @@
 # Edit here to choose which module to be installed, then edit checkDependency.sh to set dependency correctly.
 # ordered name(path name) list of modules to be installed, set this variable if add new modules.
 #modules_to_install=("asyn" "StreamDevice")
-modules_to_install=("seq" "asyn" "autosave" "caPutLog" "iocStats" "StreamDevice" "modbus" "s7nodave" )
+modules_to_install=("seq" "asyn" "autosave" "caPutLog" "iocStats" "StreamDevice" "modbus" "s7nodave" "BACnet")
 
 
 

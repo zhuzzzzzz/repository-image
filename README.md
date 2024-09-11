@@ -23,5 +23,5 @@
 
 - 基于镜像base:beta-0.2.2
 - 已安装的可执行IOC: ST-IOC
-- 当前版本支持的EPICS插件(ST-IOC): "seq" "asyn" "autosave" "caPutLog" "iocStats" "StreamDevice" "modbus" "s7nodave"
+- 当前版本支持的EPICS插件(ST-IOC): "seq" "asyn" "autosave" "caPutLog" "iocStats" "StreamDevice" "modbus" "s7nodave" "BACnet"
 - 参考项目内README文件进行镜像构建后的测试
